@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ZeldaEngine
 {
+    public delegate void KeyDownHandler(object sender, KeyDownEventArgs e);
+    public delegate void KeyUpHandler(object sender, KeyUpEventArgs e);
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -12,10 +15,13 @@ namespace ZeldaEngine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private EntityManager entityManager;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            entityManager = new EntityManager();
         }
 
         /// <summary>
@@ -66,7 +72,7 @@ namespace ZeldaEngine
                 Exit();
 
             // TODO: Add your update logic here
-
+            entityManager.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -79,7 +85,9 @@ namespace ZeldaEngine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            entityManager.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
